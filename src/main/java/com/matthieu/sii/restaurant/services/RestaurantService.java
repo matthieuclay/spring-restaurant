@@ -9,4 +9,6 @@ public interface RestaurantService {
     public List<Restaurant> findAll();
 
     public Restaurant findById(String id);
+
+    public String create(Restaurant restaurant);
 }

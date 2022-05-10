@@ -4,12 +4,9 @@ import com.matthieu.sii.restaurant.exceptions.NotFoundException;
 import com.matthieu.sii.restaurant.models.Restaurant;
 import com.matthieu.sii.restaurant.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,13 +22,19 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant findById(@PathVariable String id){
+    public Restaurant findById(@PathVariable String id) {
         Restaurant res = restaurantService.findById(id);
 
-        if(res==null){
+        if (res == null) {
             throw new NotFoundException();
         }
 
         return res;
+    }
+
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public String create(@RequestBody Restaurant restaurant) {
+        return restaurantService.create(restaurant);
     }
 }
