@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -41,5 +42,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void update(String id, Restaurant restaurant) {
         restaurant.setId(id);
         restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public void partialUpdate(String id, Map<String, Object> updates) {
+        Restaurant restaurantToUpdate = restaurantRepository.findById(id).get();
+        for (String key : updates.keySet()) {
+            switch (key) {
+                case "name" -> {
+                    restaurantToUpdate.setName((String) updates.get(key));
+                }
+                case "address" -> {
+                    restaurantToUpdate.setAddress((String) updates.get(key));
+                }
+            }
+        }
+        restaurantRepository.save(restaurantToUpdate);
     }
 }

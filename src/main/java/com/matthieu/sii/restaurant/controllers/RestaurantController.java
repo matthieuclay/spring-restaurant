@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -45,5 +46,14 @@ public class RestaurantController {
             throw new NotFoundException();
         }
         restaurantService.update(id, restaurant);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> updates) {
+        if (restaurantService.findById(id) == null) {
+            throw new NotFoundException();
+        }
+        restaurantService.partialUpdate(id, updates);
     }
 }
