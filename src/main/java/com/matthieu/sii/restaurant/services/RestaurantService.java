@@ -16,4 +16,6 @@ public interface RestaurantService {
     public void update(String id, Restaurant restaurant);
 
     public void partialUpdate(String id, Map<String, Object> updates);
+
+    public void deleteById(String id);
 }
