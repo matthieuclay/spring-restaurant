@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Table(name = "menus")
 @Entity
@@ -49,5 +50,18 @@ public class Menu {
 
     public void setDesserts(String desserts) {
         this.desserts = desserts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return Objects.equals(starters, menu.starters) && Objects.equals(meals, menu.meals) && Objects.equals(desserts, menu.desserts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(starters, meals, desserts);
     }
 }

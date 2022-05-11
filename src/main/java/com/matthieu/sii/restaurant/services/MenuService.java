@@ -9,4 +9,6 @@ public interface MenuService {
     public Set<Menu> findAll(String idRestaurant);
 
     public Menu findById(String id);
+
+    public String create(String idRestaurant, Menu menu);
 }

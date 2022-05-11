@@ -1,6 +1,7 @@
 package com.matthieu.sii.restaurant.services.impl;
 
 import com.matthieu.sii.restaurant.models.Menu;
+import com.matthieu.sii.restaurant.models.Restaurant;
 import com.matthieu.sii.restaurant.repository.MenuRepository;
 import com.matthieu.sii.restaurant.repository.RestaurantRepository;
 import com.matthieu.sii.restaurant.services.MenuService;
@@ -30,6 +31,17 @@ public class MenuServiceImpl implements MenuService {
     public Menu findById(String id) {
         if (menuRepository.findById(id).isPresent()) {
             return menuRepository.findById(id).get();
+        }
+        return null;
+    }
+
+    @Override
+    public String create(String idRestaurant, Menu menu) {
+        if (restaurantRepository.findById(idRestaurant).isPresent()) {
+            Restaurant restaurant = restaurantRepository.findById(idRestaurant).get();
+            restaurant.getMenus().add(menu);
+            restaurantRepository.save(restaurant);
+            return restaurant.getMenus().stream().filter(m -> m.equals(menu)).findFirst().get().getId();
         }
         return null;
     }

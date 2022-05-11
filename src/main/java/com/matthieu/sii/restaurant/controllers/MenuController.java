@@ -5,9 +5,8 @@ import com.matthieu.sii.restaurant.services.MenuService;
 import com.matthieu.sii.restaurant.services.RestaurantService;
 import com.matthieu.sii.restaurant.utils.CtrlPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -30,6 +29,13 @@ public class MenuController {
     public Menu findById(@PathVariable("id") String id) {
         CtrlPreconditions.checkFound(menuService.findById(id));
         return menuService.findById(id);
+    }
+
+    @PostMapping("/restaurants/{idRestaurant}/menus")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public String create(@PathVariable("idRestaurant") String idRestaurant, @RequestBody Menu menu) {
+        CtrlPreconditions.checkFound(restaurantService.findById(idRestaurant));
+        return menuService.create(idRestaurant, menu);
     }
 
 }
