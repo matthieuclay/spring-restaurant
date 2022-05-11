@@ -45,4 +45,10 @@ public class MenuServiceImpl implements MenuService {
         }
         return null;
     }
+
+    @Override
+    public void update(String id, Menu menu) {
+        menu.setId(id);
+        menuRepository.save(menu);
+    }
 }

@@ -38,4 +38,11 @@ public class MenuController {
         return menuService.create(idRestaurant, menu);
     }
 
+    @PutMapping("/menus/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public void update(@PathVariable("id") String id, @RequestBody Menu menu) {
+        CtrlPreconditions.checkFound(menuService.findById(id));
+        menuService.update(id, menu);
+    }
+
 }
