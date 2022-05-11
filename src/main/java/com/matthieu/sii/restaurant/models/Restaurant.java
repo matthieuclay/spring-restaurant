@@ -1,6 +1,7 @@
 package com.matthieu.sii.restaurant.models;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.Set;
 
 @Table(name = "restaurants")
 @Entity
-public class Restaurant {
+public class Restaurant extends RepresentationModel<Restaurant> {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

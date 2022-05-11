@@ -4,6 +4,8 @@ import com.matthieu.sii.restaurant.models.Restaurant;
 import com.matthieu.sii.restaurant.services.RestaurantService;
 import com.matthieu.sii.restaurant.utils.CtrlPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +21,21 @@ public class RestaurantController {
 
     @GetMapping
     public List<Restaurant> findAll() {
-        return restaurantService.findAll();
+        List<Restaurant> restaurants = restaurantService.findAll();
+        for (Restaurant restaurant : restaurants) {
+            Link selfLink = WebMvcLinkBuilder.linkTo(RestaurantController.class).slash(restaurant.getId()).withSelfRel();
+            restaurant.add(selfLink);
+        }
+        return restaurants;
     }
 
     @GetMapping("/{id}")
     public Restaurant findById(@PathVariable String id) {
-        CtrlPreconditions.checkFound(restaurantService.findById(id));
-        return restaurantService.findById(id);
+        Restaurant restaurant = restaurantService.findById(id);
+        CtrlPreconditions.checkFound(restaurant);
+        Link menusLink = WebMvcLinkBuilder.linkTo(RestaurantController.class).slash(restaurant.getId()).slash("menus").withRel("menus");
+        restaurant.add(menusLink);
+        return restaurant;
     }
 
     @PostMapping
