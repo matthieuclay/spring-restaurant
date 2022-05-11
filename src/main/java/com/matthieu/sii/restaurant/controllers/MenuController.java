@@ -53,4 +53,11 @@ public class MenuController {
         menuService.partialUpdate(id, updates);
     }
 
+    @DeleteMapping("/restaurants/{idRestaurant}/menus/{idMenu}")
+    public void delete(@PathVariable("idRestaurant") String idRestaurant, @PathVariable("idMenu") String idMenu){
+        CtrlPreconditions.checkFound(restaurantService.findById(idRestaurant));
+        CtrlPreconditions.checkFound(menuService.findById(idMenu));
+        menuService.deleteById(idRestaurant, idMenu);
+    }
+
 }
