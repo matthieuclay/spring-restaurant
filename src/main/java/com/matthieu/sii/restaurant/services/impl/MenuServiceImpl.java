@@ -8,6 +8,7 @@ import com.matthieu.sii.restaurant.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -50,5 +51,24 @@ public class MenuServiceImpl implements MenuService {
     public void update(String id, Menu menu) {
         menu.setId(id);
         menuRepository.save(menu);
+    }
+
+    @Override
+    public void partialUpdate(String id, Map<String, Object> updates) {
+        Menu menuToUpdate = menuRepository.findById(id).get();
+        for (String key : updates.keySet()) {
+            switch (key) {
+                case "starters" -> {
+                    menuToUpdate.setStarters((String) updates.get(key));
+                }
+                case "meals" -> {
+                    menuToUpdate.setMeals((String) updates.get(key));
+                }
+                case "desserts" -> {
+                    menuToUpdate.setDesserts((String) updates.get(key));
+                }
+            }
+        }
+        menuRepository.save(menuToUpdate);
     }
 }
