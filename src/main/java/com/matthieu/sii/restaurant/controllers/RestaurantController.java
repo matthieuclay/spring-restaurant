@@ -24,9 +24,8 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     public Restaurant findById(@PathVariable String id) {
-        Restaurant res = restaurantService.findById(id);
-        CtrlPreconditions.checkFound(res.getId());
-        return res;
+        CtrlPreconditions.checkFound(restaurantService.findById(id));
+        return restaurantService.findById(id);
     }
 
     @PostMapping
@@ -38,21 +37,21 @@ public class RestaurantController {
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void update(@PathVariable String id, @RequestBody Restaurant restaurant) {
-        CtrlPreconditions.checkFound(id);
+        CtrlPreconditions.checkFound(restaurantService.findById(id));
         restaurantService.update(id, restaurant);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> updates) {
-        CtrlPreconditions.checkFound(id);
+        CtrlPreconditions.checkFound(restaurantService.findById(id));
         restaurantService.partialUpdate(id, updates);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public void delete(@PathVariable String id) {
-        CtrlPreconditions.checkFound(id);
+        CtrlPreconditions.checkFound(restaurantService.findById(id));
         restaurantService.deleteById(id);
     }
 }

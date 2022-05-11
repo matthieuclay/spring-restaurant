@@ -4,8 +4,8 @@ import com.matthieu.sii.restaurant.exceptions.NotFoundException;
 
 public final class CtrlPreconditions {
 
-    public static void checkFound(String restaurantId) {
-        if (restaurantId == null) {
+    public static <T> void checkFound(T object) {
+        if (object == null) {
             throw new NotFoundException();
         }
     }
